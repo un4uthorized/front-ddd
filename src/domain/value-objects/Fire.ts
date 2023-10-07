@@ -1,23 +1,23 @@
-import { Type } from "./Type";
+import { TypeStrategy } from "./TypeStrategy";
 
-export class Fire extends Type {
+export class Fire extends TypeStrategy {
     constructor() {
         super("fire");
     }
 
-    isStrongAgainst(type: Type): boolean {
-        return type.type === "grass";
+    isStrongAgainst(type: TypeStrategy): boolean {
+        return type.typeName === "grass";
     }
 
-    isWeakAgainst(type: Type): boolean {
-        return type.type === "water";
+    isWeakAgainst(type: TypeStrategy): boolean {
+        return type.typeName === "water";
     }
 
-    isResistantAgainst(type: Type): boolean {
-        return type.type === "fire";
+    isResistantAgainst(type: TypeStrategy): boolean {
+        return type.typeName === "fire";
     }
 
-    isVulnerableAgainst(type: Type): boolean {
-        return type.type === "water";
+    isVulnerableAgainst(type: TypeStrategy): boolean {
+        return type.typeName === "water";
     }
 }
