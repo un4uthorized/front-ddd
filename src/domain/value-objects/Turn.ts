@@ -3,8 +3,8 @@ import { Ability } from "./Ability";
 
 export abstract class Turn {
     constructor(
-        readonly pokemon1: Pokemon,
-        readonly pokemon2: Pokemon,
+        readonly attacker: Pokemon,
+        readonly defender: Pokemon,
         readonly ability: Ability,
     ) { }
 

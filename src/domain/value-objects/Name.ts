@@ -1,6 +1,6 @@
 export class Name {
     constructor(
-        public readonly value: string,
+        private readonly value: string,
     ) { }
 
     get name(): string {

@@ -1,9 +1,7 @@
 export class Level {
-    value: number;
 
-    constructor(level: number) {
-        this.validate(level);
-        this.value = level;
+    constructor(private readonly value: number) {
+        this.validate(value);
     }
 
     get level(): number {

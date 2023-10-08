@@ -1,5 +1,5 @@
 export class HealthPoints {
-    constructor(readonly value: number) {
+    constructor(private readonly value: number) {
         this.value = value;
     }
 

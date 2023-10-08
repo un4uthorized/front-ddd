@@ -1,6 +1,6 @@
 export class Id {
     constructor(
-        public readonly value: number,
+        private readonly value: number,
     ) { }
 
     get id(): number {
