@@ -3,4 +3,9 @@ export * from './Fire'
 export * from "./Id";
 export * from "./Level";
 export * from "./Name";
-export * from "./Type";
+export * from "./TypeStrategy";
+export * from './Ability'
+export * from './HealthPoints'
+export * from './Turn'
+export * from './Type'
+export * from './Attack'
