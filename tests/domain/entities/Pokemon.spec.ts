@@ -25,12 +25,12 @@ describe("Pokemon", () => {
         const pokemon = new Pokemon(id, name, type, level, hp, maxHp, abilities);
 
         // Assert
-        expect(pokemon.pokemonId).toBe(id.value);
-        expect(pokemon.pokemonName).toBe(name.value);
-        expect(pokemon.pokemonType).toBe(type.typeName);
-        expect(pokemon.pokemonLevel).toBe(level.value);
-        expect(pokemon.hp.healthPoints).toBe(hp.healthPoints);
-        expect(pokemon.Abilities).toBe(abilities);
+        expect(pokemon.pokemonId.id).toBe(id.id);
+        expect(pokemon.pokemonName.name).toBe(name.name);
+        expect(pokemon.pokemonType.typeName).toBe(type.typeName);
+        expect(pokemon.pokemonLevel.level).toBe(level.level);
+        expect(pokemon.pokemonHp.healthPoints).toBe(hp.healthPoints);
+        expect(pokemon.pokemonAbilities).toBe(abilities);
     });
 
 });
