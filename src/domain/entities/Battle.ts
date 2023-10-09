@@ -1,4 +1,4 @@
-import { Turn } from "../value-objects/Turn";
+import { Turn } from "../services/Turn";
 import { Pokemon } from "./Pokemon";
 
 export class Battle {
