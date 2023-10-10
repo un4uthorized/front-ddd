@@ -1,16 +1,18 @@
-import { Id, Name, TypeStrategy, Level } from "../value-objects";
-import { Ability } from "../value-objects/Ability";
+import { Id, Name, TypeStrategy, Level, Attack, Defense } from "../value-objects";
+import { Abilities } from "../value-objects/Abilities";
 import { HealthPoints } from "../value-objects/HealthPoints";
 
 export class Pokemon {
     constructor(
-        private id: Id,
-        private name: Name,
-        private type: TypeStrategy,
-        private level: Level,
-        private hp: HealthPoints,
-        private maxHp: HealthPoints,
-        private Abilities: Ability[],
+        private readonly id: Id,
+        private readonly name: Name,
+        private readonly type: TypeStrategy,
+        private readonly level: Level,
+        private readonly hp: HealthPoints,
+        private readonly maxHp: HealthPoints,
+        private readonly attack: Attack,
+        private readonly defense: Defense,
+        private readonly Abilities: Abilities,
     ) { }
 
     get pokemonId() {
@@ -37,24 +39,16 @@ export class Pokemon {
         return this.maxHp;
     }
 
-    get pokemonAbilities(): Ability[] {
+    get pokemonAttack() {
+        return this.attack;
+    }
+
+    get pokemonDefense() {
+        return this.defense;
+    }
+
+    get pokemonAbilities() {
         return this.Abilities;
-    }
-
-    get firstAbility(): Ability {
-        return this.Abilities[0];
-    }
-
-    get secondAbility(): Ability {
-        return this.Abilities[1];
-    }
-
-    get thirdAbility(): Ability {
-        return this.Abilities[2];
-    }
-
-    get fourthAbility(): Ability {
-        return this.Abilities[3];
     }
 
 }
