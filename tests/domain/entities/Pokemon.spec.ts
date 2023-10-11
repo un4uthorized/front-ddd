@@ -1,9 +1,8 @@
 import { it, describe, expect } from "vitest";
 
 import { Pokemon } from "../../../src/domain/entities/Pokemon";
-import { Grass, Id, Level, Name } from "../../../src/domain/value-objects";
+import { Types, Id, Level, Name, Attack, Defense, Ability, Abilities } from "../../../src/domain/value-objects";
 import { HealthPoints } from "../../../src/domain/value-objects/HealthPoints";
-import { Ability } from "../../../src/domain/value-objects/Ability";
 
 
 describe("Pokemon", () => {
@@ -11,18 +10,19 @@ describe("Pokemon", () => {
         // Arrange
         const id = new Id(1);
         const name = new Name("Bulbasaur");
-        const type = new Grass();
+        const type = Types.GRASS
         const level = new Level(1);
         const hp = new HealthPoints(300)
         const maxHp = new HealthPoints(300)
-        const abilities = [
+        const attack = new Attack(49)
+        const defense = new Defense(49)
+        const abilities = new Abilities([
             new Ability("Overgrow", "When HP is below 1/3rd, Grass's power increases to 1.5 times.", 20),
             new Ability("Chlorophyll", "When sunny, the Pokémon's Speed doubles.", 20),
             new Ability("Leaf Guard", "Prevents status conditions in sunny weather.", 20),
-        ]
-
+        ])
         // Act
-        const pokemon = new Pokemon(id, name, type, level, hp, maxHp, abilities);
+        const pokemon = new Pokemon(id, name, type, level, hp, maxHp, attack, defense, abilities);
 
         // Assert
         expect(pokemon.pokemonId.id).toBe(id.id);
