@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Pokemon, Battle } from '../../../src/domain/entities';
-import { Id, Name, Level, Ability, HealthPoints, Types, Defense, Attack, Abilities } from "../../../src/domain/value-objects";
+import { Id, Name, Level, Ability, HealthPoints, Types, Defense, Attack, Abilities, Sprite } from "../../../src/domain/value-objects";
 import { PerformAttack } from "../../../src/domain/services";
 import { DamageCalculatorStub } from "../stubs/DamageCalculatorStub";
 
@@ -16,7 +16,8 @@ describe("Battle", () => {
             HealthPoints.create(50),
             Attack.create(10),
             Defense.create(10),
-            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)])
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -29,6 +30,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         // Act
@@ -54,6 +56,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -66,6 +69,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -92,6 +96,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -104,6 +109,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -130,6 +136,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -142,6 +149,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -171,6 +179,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -183,6 +192,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -209,6 +219,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -221,6 +232,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -244,6 +256,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -256,6 +269,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -279,6 +293,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -291,6 +306,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         // Act
@@ -315,6 +331,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -327,6 +344,7 @@ describe("Battle", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         // Act

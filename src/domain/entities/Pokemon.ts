@@ -1,4 +1,4 @@
-import { Id, Name, TypeStrategy, Level, Attack, Defense } from "../value-objects";
+import { Id, Name, TypeStrategy, Level, Attack, Defense, Sprite } from "../value-objects";
 import { Abilities } from "../value-objects/Abilities";
 import { HealthPoints } from "../value-objects/HealthPoints";
 
@@ -13,6 +13,7 @@ export class Pokemon {
         private readonly attack: Attack,
         private readonly defense: Defense,
         private readonly Abilities: Abilities,
+        private readonly sprite: Sprite
     ) { }
 
     get pokemonId() {
@@ -49,6 +50,10 @@ export class Pokemon {
 
     get pokemonAbilities() {
         return this.Abilities;
+    }
+
+    get pokemonSprite() {
+        return this.sprite;
     }
 
 }

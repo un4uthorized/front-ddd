@@ -1,7 +1,7 @@
 import { it, describe, expect } from "vitest";
 
 import { Pokemon } from "../../../src/domain/entities/Pokemon";
-import { Types, Id, Level, Name, Attack, Defense, Ability, Abilities } from "../../../src/domain/value-objects";
+import { Types, Id, Level, Name, Attack, Defense, Ability, Abilities, Sprite } from "../../../src/domain/value-objects";
 import { HealthPoints } from "../../../src/domain/value-objects/HealthPoints";
 
 
@@ -21,8 +21,10 @@ describe("Pokemon", () => {
             new Ability("Chlorophyll", "When sunny, the Pokémon's Speed doubles.", 20),
             new Ability("Leaf Guard", "Prevents status conditions in sunny weather.", 20),
         ])
+        const sprite = Sprite.create("front_image.png", "back_image.png")
+
         // Act
-        const pokemon = new Pokemon(id, name, type, level, hp, maxHp, attack, defense, abilities);
+        const pokemon = new Pokemon(id, name, type, level, hp, maxHp, attack, defense, abilities, sprite);
 
         // Assert
         expect(pokemon.pokemonId.id).toBe(id.id);
@@ -31,6 +33,7 @@ describe("Pokemon", () => {
         expect(pokemon.pokemonLevel.level).toBe(level.level);
         expect(pokemon.pokemonHp.healthPoints).toBe(hp.healthPoints);
         expect(pokemon.pokemonAbilities).toBe(abilities);
+        expect(pokemon.pokemonSprite).toBe(sprite);
     });
 
 });

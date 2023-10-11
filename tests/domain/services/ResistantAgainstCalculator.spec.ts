@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { DamageCalculator, ResistantAgainstCalculator } from "../../../src/domain/services";
 import { Pokemon } from "../../../src/domain/entities";
-import { Id, Name, Types, Level, HealthPoints, Attack, Defense, Abilities, Ability } from "../../../src/domain/value-objects";
+import { Id, Name, Types, Level, HealthPoints, Attack, Defense, Abilities, Ability, Sprite } from "../../../src/domain/value-objects";
 import { vi } from "vitest";
 import { DamageCalculatorStub } from "../stubs/DamageCalculatorStub";
 
@@ -18,6 +18,7 @@ describe("ResistantAgainstCalculator", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -30,6 +31,7 @@ describe("ResistantAgainstCalculator", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const sut = new ResistantAgainstCalculator();
@@ -52,7 +54,8 @@ describe("ResistantAgainstCalculator", () => {
             HealthPoints.create(50),
             Attack.create(10),
             Defense.create(10),
-            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)])
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -65,6 +68,7 @@ describe("ResistantAgainstCalculator", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const damageCalculatorStub = new DamageCalculatorStub();
@@ -91,7 +95,8 @@ describe("ResistantAgainstCalculator", () => {
             HealthPoints.create(50),
             Attack.create(10),
             Defense.create(10),
-            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)])
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -104,6 +109,7 @@ describe("ResistantAgainstCalculator", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const sut = new ResistantAgainstCalculator();

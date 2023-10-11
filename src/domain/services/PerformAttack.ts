@@ -32,7 +32,8 @@ export class PerformAttack implements Turn {
             this.defender.pokemonMaxHp,
             this.defender.pokemonAttack,
             this.defender.pokemonDefense,
-            this.defender.pokemonAbilities
+            this.defender.pokemonAbilities,
+            this.defender.pokemonSprite
         );
 
         return {

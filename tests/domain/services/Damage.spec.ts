@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Damage } from "../../../src/domain/services/Damage";
 import { Pokemon } from "../../../src/domain/entities";
-import { Id, Name, Types, Level, HealthPoints, Attack, Defense, Abilities, Ability } from "../../../src/domain/value-objects";
+import { Id, Name, Types, Level, HealthPoints, Attack, Defense, Abilities, Ability, Sprite } from "../../../src/domain/value-objects";
 import { expect } from "vitest";
 
 describe("Damage", () => {
@@ -16,7 +16,8 @@ describe("Damage", () => {
             HealthPoints.create(50),
             Attack.create(10),
             Defense.create(10),
-            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)])
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         const bulbasaur = new Pokemon(
@@ -29,6 +30,7 @@ describe("Damage", () => {
             Attack.create(10),
             Defense.create(10),
             Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
         );
 
         // Act
