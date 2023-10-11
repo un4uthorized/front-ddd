@@ -1,7 +1,14 @@
 export class Level {
 
     constructor(private readonly value: number) {
-        this.validate(value);
+    }
+
+    static create(level: number): Level {
+        if (level < 1 || level > 100) {
+            throw new Error('Level must be between 1 and 100');
+        }
+
+        return new Level(level);
     }
 
     get level(): number {
@@ -10,11 +17,5 @@ export class Level {
 
     up(): Level {
         return new Level(this.value + 1);
-    }
-
-    validate(value: number): void {
-        if (value < 1 || value > 100) {
-            throw new Error('Level must be between 1 and 100');
-        }
     }
 }
