@@ -1,28 +1,34 @@
 import { describe, expect, it } from "vitest";
 import { Pokemon, Battle } from '../../../src/domain/entities';
-import { Id, Name, Level, Ability, HealthPoints, Turn, Type, Attack } from "../../../src/domain/value-objects";
+import { Id, Name, Level, Ability, HealthPoints, Types, Defense, Attack, Abilities } from "../../../src/domain/value-objects";
+import { PerformAttack } from "../../../src/domain/services";
+import { DamageCalculatorStub } from "../stubs/DamageCalculatorStub";
 
 describe("Battle", () => {
     it("should be able to create a new Battle", () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)])
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         // Act
@@ -39,61 +45,73 @@ describe("Battle", () => {
     it('Given that the first pokemon makes the first move, an error must be returned if the first pokemon makes a new move next.', () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
 
+        const damageCalculator = new DamageCalculatorStub();
+
         // Act
-        const result = battle.addTurn(Attack.create(charmander, bulbasaur, charmander.firstAbility));
+        const result = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
 
         // Assert
-        expect(() => result.addTurn(Attack.create(charmander, bulbasaur, charmander.firstAbility))).toThrowError('The attacker is not the current pokemon');
+        expect(() => result.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator))).toThrowError('The attacker is not the current pokemon');
     })
 
 
     it('Given that the first pokemon makes the first move, the next move must be from the second pokemon.', () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
 
+        const damageCalculator = new DamageCalculatorStub();
+
         // Act
-        const result = battle.addTurn(Attack.create(charmander, bulbasaur, charmander.firstAbility));
+        const result = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
 
         // Assert
         expect(result.battleCurrentPokemon).toBe(bulbasaur);
@@ -103,30 +121,36 @@ describe("Battle", () => {
     it('Given that the second pokemon makes the second move, the next move must be from the first pokemon.', () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
 
+        const damageCalculator = new DamageCalculatorStub();
+
         // Act
-        const turn1 = battle.addTurn(Attack.create(charmander, bulbasaur, charmander.firstAbility));
-        const result = turn1.addTurn(Attack.create(bulbasaur, charmander, bulbasaur.firstAbility));
+        const turn1 = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
+        const result = turn1.addTurn(PerformAttack.create(bulbasaur, charmander, bulbasaur.pokemonAbilities.firstAbility, damageCalculator));
 
 
         // Assert
@@ -134,59 +158,69 @@ describe("Battle", () => {
     })
 
 
-    it(`Given that the attacking Pokemon attacks the defender with a 0.3 point ability, 
-        the defender must have 49.7 life points.`, () => {
+    it(`Given that the attacking Pokemon infringes a die of 10 points based on its characteristics 
+        on the defender who has 50 life points, the defender must have 40 life points.`, () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
 
+        const damageCalculator = new DamageCalculatorStub(10);
+
         // Act
-        const result = battle.addTurn(Attack.create(charmander, bulbasaur, charmander.firstAbility));
+        const result = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
 
         // Assert
         expect(result).toBeInstanceOf(Battle);
-        expect(result.battlePokemon2.pokemonHp.healthPoints).toBe(49.7);
+        expect(result.battlePokemon2.pokemonHp.healthPoints).toBe(40);
     })
 
     it("Given the battle is not over yet, if you try to find out the winner, should return null", () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -201,23 +235,27 @@ describe("Battle", () => {
     it("Given the battle is over, if you try to find out the loser, should return the null", () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         const battle = Battle.create(charmander, bulbasaur);
@@ -229,26 +267,30 @@ describe("Battle", () => {
         expect(result).toBe(null);
     });
 
-    it("Given a pokemon drops to 0 health, the enemy pokemon must be declared the winner.", () => {
+    it("Given that the second Pokémon drops to 0 health, the first Pokémon must be declared the winner.", () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(0),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(0),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         // Act
@@ -260,26 +302,31 @@ describe("Battle", () => {
         expect(battle.getLoser()).toBe(bulbasaur);
     })
 
-    it("Given a pokemon drops to 0 health, the enemy pokemon must be declared the winner.", () => {
+
+    it("Given that the first Pokémon drops to 0 health, the second Pokémon must be declared the winner.", () => {
         // Arrange
         const charmander = new Pokemon(
-            new Id(1),
-            new Name("Charmander"),
-            Type.FIRE,
-            new Level(10),
-            new HealthPoints(0),
-            new HealthPoints(50),
-            [new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)],
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(0),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 50)]),
         );
 
         const bulbasaur = new Pokemon(
-            new Id(2),
-            new Name("Bulbasaur"),
-            Type.GRASS,
-            new Level(10),
-            new HealthPoints(50),
-            new HealthPoints(50),
-            [new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)],
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
         );
 
         // Act
