@@ -1,4 +1,4 @@
-import { useBattle } from "../../context/battle.context";
+import { useBattle } from "../../context/BattleContext";
 
 export const Battle = () => {
     const { battle, attack } = useBattle();

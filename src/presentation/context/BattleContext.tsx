@@ -53,9 +53,7 @@ const BattleProvider: React.FC<BattleProviderProps> = ({ children }) => {
 
     const attack = (ability: Ability) => {
         const turn = PerformAttack.create(battle.battlePokemon1, battle.battlePokemon2, ability, DamageCalculatorFactory.create())
-        const newBattle = battle.addTurn(turn)
-        console.log(newBattle)
-        setBattle(newBattle)
+        setBattle(battle.addTurn(turn))
     }
 
     return (
@@ -75,4 +73,4 @@ const useBattle = () => {
     return context;
 }
 
-export { BattleProvider, BattleContext, useBattle };
+export { BattleProvider, useBattle };
