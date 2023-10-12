@@ -78,7 +78,7 @@ describe("PerformAttack", () => {
         const turnResult = turn.execute()
 
         // Assert
-        expect(turnResult.pokemon2.pokemonHp.healthPoints).toBe(40);
+        expect(turnResult.defender.pokemonHp.healthPoints).toBe(40);
     });
 
     it("Given that an attack is made with an invalid ability, it must return an error", () => {
@@ -114,4 +114,42 @@ describe("PerformAttack", () => {
         // Assert
         expect(() => PerformAttack.create(charmander, bulbasaur, new Ability("Invalid", "Invalid", 0.3), damageCalculatorStub)).toThrowError("This pokemon does not have this ability");
     })
+
+    it("Given that an attack is greater than the defender's health points, it must return the defender's health points as 0", () => {
+        // Arrange
+        const charmander = new Pokemon(
+            Id.create(1),
+            Name.create("Charmander"),
+            Types.FIRE,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(100),
+            Defense.create(10),
+            Abilities.create([new Ability("Blaze", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
+        );
+
+        const bulbasaur = new Pokemon(
+            Id.create(2),
+            Name.create("Bulbasaur"),
+            Types.GRASS,
+            Level.create(10),
+            HealthPoints.create(50),
+            HealthPoints.create(50),
+            Attack.create(10),
+            Defense.create(10),
+            Abilities.create([new Ability("Overgrow", "Increases damage when HP is below 1/3rd.", 0.3)]),
+            Sprite.create("front_image.png", "back_image.png")
+        );
+
+        const damageCalculatorStub = new DamageCalculatorStub(100);
+        const turn = PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculatorStub);
+
+        // Act
+        const turnResult = turn.execute()
+
+        // Assert
+        expect(turnResult.defender.pokemonHp.healthPoints).toBe(0);
+    });
 });

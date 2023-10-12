@@ -19,9 +19,12 @@ export class PerformAttack implements Turn {
         return new PerformAttack(attacker, defender, ability, damageCalculator);
     }
 
-    execute(): { pokemon1: Pokemon, pokemon2: Pokemon } {
+    execute(): { attacker: Pokemon, defender: Pokemon } {
         const calculateDamage = this.damageCalculator.calculate(this.attacker, this.defender, this.ability);
-        const newHealthPointsAfterAttack = HealthPoints.create(this.defender.pokemonHp.healthPoints - calculateDamage)
+
+        const isDamageGreaterThanDefenderHp = calculateDamage > this.defender.pokemonHp.healthPoints;
+
+        const newHealthPointsAfterAttack = isDamageGreaterThanDefenderHp ? HealthPoints.create(0) : HealthPoints.create(this.defender.pokemonHp.healthPoints - calculateDamage)
 
         const pokemonAfterAttack = new Pokemon(
             this.defender.pokemonId,
@@ -37,8 +40,8 @@ export class PerformAttack implements Turn {
         );
 
         return {
-            pokemon1: this.attacker,
-            pokemon2: pokemonAfterAttack
+            attacker: this.attacker,
+            defender: pokemonAfterAttack
         }
     }
 }

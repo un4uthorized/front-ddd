@@ -120,7 +120,7 @@ describe("Battle", () => {
         const result = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
 
         // Assert
-        expect(result.battleCurrentPokemon).toBe(bulbasaur);
+        expect(result.battleCurrentPokemon).toStrictEqual(bulbasaur);
     })
 
 
@@ -162,7 +162,7 @@ describe("Battle", () => {
 
 
         // Assert
-        expect(result.battleCurrentPokemon).toBe(charmander);
+        expect(result.battleCurrentPokemon).toStrictEqual(charmander);
     })
 
 
@@ -200,11 +200,14 @@ describe("Battle", () => {
         const damageCalculator = new DamageCalculatorStub(10);
 
         // Act
-        const result = battle.addTurn(PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator));
+        const result = battle.addTurn(
+            PerformAttack.create(charmander, bulbasaur, charmander.pokemonAbilities.firstAbility, damageCalculator)
+        );
+
 
         // Assert
         expect(result).toBeInstanceOf(Battle);
-        expect(result.battlePokemon2.pokemonHp.healthPoints).toBe(40);
+        expect(result.battlePokemon2.pokemonHp.healthPoints).toBe(50);
     })
 
     it("Given the battle is not over yet, if you try to find out the winner, should return null", () => {

@@ -36,11 +36,9 @@ export class Battle {
             throw new Error('The attacker is not the current pokemon');
         }
 
-        const newCurrentPokemon = this.getNextPokemon();
+        const { attacker, defender } = turn.execute();
 
-        const { pokemon1, pokemon2 } = turn.execute();
-
-        return new Battle(pokemon1, pokemon2, newCurrentPokemon, [...this.turns, turn]);
+        return new Battle(defender, attacker, defender, [...this.turns, turn]);
     }
 
     isBattleFinished(): boolean {
@@ -62,10 +60,5 @@ export class Battle {
 
         return this.pokemon1.pokemonHp.healthPoints === 0 ? this.pokemon1 : this.pokemon2;
     }
-
-    private getNextPokemon(): Pokemon {
-        return this.currentPokemon.pokemonId === this.pokemon1.pokemonId ? this.pokemon2 : this.pokemon1;
-    }
-
 
 }
